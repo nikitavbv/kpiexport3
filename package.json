@@ -1,0 +1,16 @@
+{
+  "name": "kpiexport",
+  "version": "3.0.0",
+  "description": "export kpi schedule",
+  "main": "app.ts",
+  "scripts": {
+    "start": "npm run-script build && http-server .",
+    "build": "lessc app.less app.css"
+  },
+  "author": "Nikita Volobuev",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^0.12.3",
+    "less": "^3.11.3"
+  }
+}
