@@ -4,8 +4,8 @@
   "description": "export kpi schedule",
   "main": "app.ts",
   "scripts": {
-    "start": "npm run-script build && http-server .",
-    "build": "lessc app.less app.css"
+    "start": "npm run-script build && http-server build",
+    "build": "lessc less/app.less build/app.css && cp index.html build"
   },
   "author": "Nikita Volobuev",
   "license": "MIT",

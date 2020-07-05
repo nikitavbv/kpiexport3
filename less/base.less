@@ -1,7 +1,4 @@
-@background: #202125;
-@foreground: @background;
-@foreground-light: #f1f2f6;
-@focus-color: #70a1ff;
+@import 'colors.less';
 
 * {
     box-sizing: border-box;
@@ -20,17 +17,27 @@ main {
     padding: 100px 0 0 0;
 }
 
+h1, h2 {
+    text-align: center;
+    font-family: inherit;
+    user-select: none;
+}
+
 h1 {
     font-size: 34px;
     font-weight: 400;
-    text-align: center;
+}
+
+h2 {
+    font-size: 24px;
+    font-weight: 300;
 }
 
 label {
     display: block;
     padding: 4px 0;
 
-    font-style: 'Raleway';
+    font-family: inherit;
     font-size: 18px;
     font-weight: 400;
 }
@@ -56,7 +63,7 @@ input:focus
     box-shadow: 0 0 4px @focus-color;
 }
 
-.input-block {
+.input_block {
     display: block;
     margin: 0 auto;
     padding: 8px;

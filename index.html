@@ -15,18 +15,23 @@
         <main>
             <h1>KPI Exporter</h1>
 
-            <div id="export-input">
-                <div class="input-block">
+            <div id="export_input" style="display: none;">
+                <div class="input_block">
                     <label for="group_name">Group Name:</label>
                     <input name="group_name" placeholder="For example: ІП-82" />
                 </div>
-                <div class="input-block">
+                <div class="input_block">
                     <label for="group_name">Calendar Name:</label>
                     <input name="group_name" value="KPI Schedule" />
                 </div>
-                <div class="input-block">
+                <div class="input_block">
                     <button>Export to Google Calendar</button>
                 </div>
+            </div>
+
+            <div id="export_progress">
+                <h2>Export in progress...</h2>
+                <div id="progress_border"><div id="progress"></div></div>
             </div>
         </main>
         <footer>
