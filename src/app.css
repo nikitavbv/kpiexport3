@@ -1,19 +1,21 @@
-@import 'colors.less';
-
 * {
     box-sizing: border-box;
 }
 
+html, body {
+    height: 100%;
+}
+
 body {
-    background-color: @background;
+    background-color: #202125;
     font-family: 'Raleway', Tahoma, Geneva, Verdana, sans-serif;
-    color: @foreground-light;   
+    color: #f1f2f6;   
     padding: 0;
     margin: 0;
 }
 
 main {
-    min-height: calc(~"100vh - 40px");
+    min-height: calc("100% - 40px");
     padding: 100px 0 0 0;
 }
 
@@ -42,11 +44,11 @@ label {
     font-weight: 400;
 }
 
-input {
+input, datalist {
     min-width: 340px;
 
-    color: @foreground;
-    background-color: @foreground-light;
+    color: #202125;
+    background-color: #f1f2f6;
     border: 0;
     border-radius: 5px;
     padding: 8px;
@@ -58,30 +60,24 @@ input {
     transition: box-shadow 0.4s ease-in-out;
 }
 
-input:focus
+input:focus, datalist:focus
 {
-    box-shadow: 0 0 4px @focus-color;
+    box-shadow: 0 0 4px #70a1ff;
 }
 
-.input_block {
-    display: block;
-    margin: 0 auto;
-    padding: 8px;
-    width: fit-content;
-}
 
 button {
     margin-top: 6px;
     min-width: 340px;
 
     border: 0;
-    background-color: @foreground-light;
+    background-color: #f1f2f6;
     border-radius: 5px;
     padding: 20px;
     font-size: 18px;
     font-weight: 300;
     font-family: inherit;
-    color: @background;
+    color: #202125;
     user-select: none;
     outline: none;
 
@@ -90,20 +86,20 @@ button {
 
 button:hover {
     cursor: pointer;
-    background-color: lighten(@background, 70%);
+    background-color: #b8b9c1;
 }
 
 footer {
     height: 40px;
-    color: darken(@foreground-light, 20%);
+    color: #eeeff4;
     padding: 8px;
     text-align: center;
 
     font-weight: 100;
+}
 
-    span {
-        padding: 0 20px;
-    }
+footer span {
+    padding: 0 20px;
 }
 
 a {
@@ -115,5 +111,5 @@ a {
 }
 
 a:hover {
-    color: @focus-color;   
+    color: #70a1ff;   
 }
