@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, Dispatch } from 'react';
+import { connect } from 'react-redux';
 import { 
     ErrorMessage, ExportInputScreen, ExportInProgressScreen, ExportFinishedScreen 
 } from './components';
@@ -8,7 +9,12 @@ import './app.css';
 // routing and urls do not make sense here.
 type Screen = 'input' | 'in_progress' | 'finished';
 
-const App = () => {
+const mapStateToProps = (state: {}) => ({});
+
+const mapDispatchToProps = (dispatch: Dispatch<{}>) => ({
+});
+
+const AppComponent = () => {
     const [error, setError] = useState<string|undefined>(undefined);
     const [screen, setScreen] = useState<Screen>('input');
 
@@ -39,4 +45,4 @@ const screenElementByType = (type: Screen) => {
     }
 };
 
-export default App;
+export const App = connect(mapStateToProps, mapDispatchToProps)(AppComponent);
