@@ -117,3 +117,14 @@ a {
 a:hover {
     color: #70a1ff;   
 }
+
+#progress_border {
+    height: 10px;
+    border: 1px solid #f1f2f6;
+    margin: 20px auto 0 auto;
+}
+
+#progress {
+    height: 8px;
+    background-color: #f1f2f6;
+}

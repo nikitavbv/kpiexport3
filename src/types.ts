@@ -12,3 +12,22 @@ export type GroupScheduleEntry = {
     lecturers: string[],
     locations: string[],
 };
+
+export type CreateCalendarResponse = {
+    id: string
+};
+
+export type CalendarEntry = {
+    summary: string,
+    description: string,
+    start: {
+        dateTime: string,
+        timeZone: string,
+    },
+    end: {
+        dateTime: string,
+        timeZone: string,
+    },
+    recurrence: string[],
+    location: string,
+};
