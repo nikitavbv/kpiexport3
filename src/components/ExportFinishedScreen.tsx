@@ -1,10 +1,17 @@
 import React from 'react';
 
-export const ExportFinishedScreen = () => (
+import {Screen} from '../types';
+
+type ExportFinishedScreenProps = {
+    setScreen: (s: Screen) => void,
+};
+
+export const ExportFinishedScreen = (props: ExportFinishedScreenProps) => (
     <div>
         <h2>Export finished!</h2>
         <div>
-            <button>Back</button>
+            <a className='button' href='https://calendar.google.com'>Go to your calendar</a>
+            <a className='button' onClick={() => props.setScreen('input')}>Back</a>
         </div>
     </div>
 );

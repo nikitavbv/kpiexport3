@@ -1,3 +1,6 @@
+// routing and urls do not make sense here.
+export type Screen = 'input' | 'in_progress' | 'finished';
+
 export type GoogleOAuthToken = string;
 
 export type GetGroupsResponse = string[];

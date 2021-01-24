@@ -3,6 +3,7 @@ import {ErrorMessage, ExportFinishedScreen, ExportInProgressScreen, ExportInputS
 
 import './app.css';
 import {
+    Screen,
     CalendarEntry,
     CreateCalendarResponse,
     GetScheduleResponse,
@@ -11,9 +12,6 @@ import {
 } from './types';
 import {oauthClientId} from './constants';
 import moment from 'moment';
-
-// routing and urls do not make sense here.
-type Screen = 'input' | 'in_progress' | 'finished';
 
 type ExportFunction = (groupName: string, calendarName: string) => void;
 
@@ -35,7 +33,7 @@ export const App = () => {
                 <h1>KPI Exporter</h1>
 
                 { error !== undefined ? <ErrorMessage errorText={error} /> : undefined }
-                { screenElementByType(screen, progressCurrent, progressTotal, exportSchedule(setScreen, updateProgress)) }
+                { screenElementByType(screen, progressCurrent, progressTotal, exportSchedule(setScreen, updateProgress), setScreen) }
             </main>
             <footer>
                 by <a href="https://nikitavbv.com">nikitavbv</a>, see <a href="https://github.com/nikitavbv/kpiexport3">Github</a> for source code
@@ -44,7 +42,7 @@ export const App = () => {
     );
 };
 
-const screenElementByType = (type: Screen, progressCurrent: number, progressTotal: number, onExportStart: ExportFunction) => {
+const screenElementByType = (type: Screen, progressCurrent: number, progressTotal: number, onExportStart: ExportFunction, setScreen: (s: Screen) => void) => {
     switch (type)
     {
         case 'input':
@@ -52,7 +50,7 @@ const screenElementByType = (type: Screen, progressCurrent: number, progressTota
         case 'in_progress':
             return (<ExportInProgressScreen progressCurrent={progressCurrent} progressTotal={progressTotal} />);
         case 'finished':
-            return (<ExportFinishedScreen />);
+            return (<ExportFinishedScreen setScreen={setScreen} />);
     }
 };
 
