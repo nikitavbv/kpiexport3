@@ -40,7 +40,10 @@ export const ExportInputScreen = (props: ExportInputScreenProps) => {
 
     const completionElement = autoCompletions.length > 0 ? (
         <div style={{marginTop: '20px', maxWidth: '340px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap'}}>
-            { autoCompletions.map(v => <span style={autoCompleteStyle} onClick={() => updateSelectedGroup(v)}>{ v }</span>)}
+            { autoCompletions.map(v => <span style={autoCompleteStyle} onClick={() => {
+                localStorage.group = v;
+                updateSelectedGroup(v);
+            }}>{ v }</span>)}
         </div>
     ) : (<></>);
 
