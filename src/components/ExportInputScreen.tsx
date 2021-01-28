@@ -72,10 +72,6 @@ export const ExportInputScreen = (props: ExportInputScreenProps) => {
     );
 };
 
-const GroupDataListOption = (group: string) => (
-    <option key={group} value={group} />
-);
-
 type InputBlockProps = {
     children: JSX.Element | JSX.Element[],
 };
