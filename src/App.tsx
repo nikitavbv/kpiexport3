@@ -96,7 +96,8 @@ const create_calendar_event = (entry: GroupScheduleEntry): CalendarEntry => {
     const m = moment();
     const isSecondSemester: boolean = m.month() < 6;
     const firstStudyMonth = !isSecondSemester ? 8 : 1;
-    let firstStudyDay = !isSecondSemester ? 1 : moment([m.year(), firstStudyMonth, 1, 0, 0]).day(8).date();
+    //let firstStudyDay = !isSecondSemester ? 1 : moment([m.year(), firstStudyMonth, 1, 0, 0]).day(8).date();
+    const firstStudyDay = 1;
     const date = moment([m.year(), firstStudyMonth, firstStudyDay, 0, 0]).day(entry.day);
 
     // shift the date of first course day by a week for second-week schedule.
