@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { GetGroupsResponse } from '../types';
 
 export type ExportInputScreenProps = {
@@ -12,10 +12,9 @@ export const ExportInputScreen = (props: ExportInputScreenProps) => {
     const [selectedGroup, updateSelectedGroup] = useState<string>(localStorage.group || '');
     const [calendarName, updateCalendarName] = useState<string>(localStorage.calendar || 'KPI Schedule');
 
-    if (!loadingGroups) {
+    useEffect(() => {
         getGroups().then(setGroups);
-        setLoadingGroups(true);
-    }
+    }, []);
 
     const autoCompleteStyle: React.CSSProperties = {
         display: 'inline-block',

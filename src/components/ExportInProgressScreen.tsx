@@ -6,7 +6,7 @@ type ExportInProgressScreenProps = {
 };
 
 export const ExportInProgressScreen = (props: ExportInProgressScreenProps) => {
-    const totalWidth = 500;
+    const totalWidth = window.screen.width >= 1000 ? 500 : 250;
     const width = totalWidth / props.progressTotal * props.progressCurrent;
 
     return (
