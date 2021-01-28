@@ -17,7 +17,7 @@ type ExportFunction = (groupName: string, calendarName: string) => void;
 
 export const App = () => {
     const [error, setError] = useState<string|undefined>(undefined);
-    const [screen, setScreen] = useState<Screen>('finished');
+    const [screen, setScreen] = useState<Screen>('input');
 
     const [progressCurrent, setProgressCurrent] = useState<number>(0);
     const [progressTotal, setProgressTotal] = useState<number>(0);

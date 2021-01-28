@@ -94,6 +94,10 @@ button:hover, .button:hover {
     color: #202125;
 }
 
+button:disabled, .button:disabled {
+    background-color: #adaeb7;
+}
+
 footer {
     height: 40px;
     color: #eeeff4;
@@ -135,4 +139,10 @@ a:hover {
     width: 400px;
     text-align: center;
     margin: 20px auto;
+}
+
+@media (max-width:900px)  {
+    .button {
+        width: 250px;
+    }
 }
