@@ -1,5 +1,5 @@
 // routing and urls do not make sense here.
-export type Screen = 'input' | 'in_progress' | 'finished';
+export type Screen = 'input' | 'in_progress' | 'finished' | 'auth_intro';
 
 export type GoogleOAuthToken = string;
 
@@ -34,3 +34,5 @@ export type CalendarEntry = {
     recurrence: string[],
     location: string,
 };
+
+export type ExportFunction = (groupName: string, calendarName: string) => void;

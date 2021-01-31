@@ -7,7 +7,6 @@ export type ExportInputScreenProps = {
 
 export const ExportInputScreen = (props: ExportInputScreenProps) => {
     const [groups, setGroups] = useState<string[]>([]);
-    const [loadingGroups, setLoadingGroups] = useState<boolean>(false);
 
     const [selectedGroup, updateSelectedGroup] = useState<string>(localStorage.group || '');
     const [calendarName, updateCalendarName] = useState<string>(localStorage.calendar || 'KPI Schedule');

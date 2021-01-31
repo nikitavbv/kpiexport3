@@ -1,5 +1,11 @@
 import React, {useState} from 'react';
-import {ErrorMessage, ExportFinishedScreen, ExportInProgressScreen, ExportInputScreen} from './components';
+import {
+    AuthIntroScreen,
+    ErrorMessage,
+    ExportFinishedScreen,
+    ExportInProgressScreen,
+    ExportInputScreen
+} from './components';
 
 import './app.css';
 import {
@@ -8,16 +14,17 @@ import {
     CreateCalendarResponse,
     GetScheduleResponse,
     GoogleOAuthToken,
-    GroupScheduleEntry
+    GroupScheduleEntry,
 } from './types';
 import {oauthClientId} from './constants';
 import moment from 'moment';
 
-type ExportFunction = (groupName: string, calendarName: string) => void;
-
 export const App = () => {
     const [error, setError] = useState<string|undefined>(undefined);
     const [screen, setScreen] = useState<Screen>('input');
+
+    const [selectedGroup, setSelectedGroup] = useState<string>('');
+    const [selectedCalendarName, setSelectedCalendarName] = useState<string>('');
 
     const [progressCurrent, setProgressCurrent] = useState<number>(0);
     const [progressTotal, setProgressTotal] = useState<number>(0);
@@ -27,13 +34,26 @@ export const App = () => {
         setProgressTotal(total);
     };
 
+    const exportScheduleFn = exportSchedule(setScreen, updateProgress);
+
     return (
         <>
             <main>
                 <h1>KPI Exporter</h1>
 
                 { error !== undefined ? <ErrorMessage errorText={error} /> : undefined }
-                { screenElementByType(screen, progressCurrent, progressTotal, exportSchedule(setScreen, updateProgress), setScreen) }
+                { screenElementByType(
+                    screen,
+                    progressCurrent,
+                    progressTotal,
+                    setScreen,
+                    async (groupName: string, calendarName: string) => {
+                        setSelectedGroup(groupName);
+                        setSelectedCalendarName(calendarName);
+                        await exportScheduleFn(groupName, calendarName);
+                    },
+                    () => exportScheduleFn(selectedGroup, selectedCalendarName)
+                ) }
             </main>
             <footer>
                 by <a href="https://nikitavbv.com">nikitavbv</a>, see <a href="https://github.com/nikitavbv/kpiexport3">Github</a> for source code
@@ -42,19 +62,32 @@ export const App = () => {
     );
 };
 
-const screenElementByType = (type: Screen, progressCurrent: number, progressTotal: number, onExportStart: ExportFunction, setScreen: (s: Screen) => void) => {
+const screenElementByType = (type: Screen,
+                             progressCurrent: number,
+                             progressTotal: number,
+                             setScreen: (s: Screen) => void,
+                             onExportParamsSelected: (groupName: string, calendarName: string) => void,
+                             onAuthIntroDone: () => void) => {
     switch (type)
     {
         case 'input':
-            return (<ExportInputScreen onSubmit={onExportStart} />);
+            return (<ExportInputScreen onSubmit={onExportParamsSelected} />);
         case 'in_progress':
             return (<ExportInProgressScreen progressCurrent={progressCurrent} progressTotal={progressTotal} />);
         case 'finished':
             return (<ExportFinishedScreen setScreen={setScreen} />);
+        case 'auth_intro':
+            return (<AuthIntroScreen onDone={onAuthIntroDone} />);
     }
 };
 
 const exportSchedule = (setScreen: (s: Screen) => void, updateProgress: (progress: number, total: number) => void) => async (groupName: string, calendarName: string) => {
+    if (localStorage.authDone === undefined) {
+        localStorage.authDone = true;
+        setScreen('auth_intro');
+        return;
+    }
+
     const token = await get_google_token();
     const schedule = await scheduleForGroup(groupName);
 
@@ -98,7 +131,7 @@ const create_calendar_event = (entry: GroupScheduleEntry): CalendarEntry => {
     const firstStudyMonth = !isSecondSemester ? 8 : 1;
     //let firstStudyDay = !isSecondSemester ? 1 : moment([m.year(), firstStudyMonth, 1, 0, 0]).day(8).date();
     const firstStudyDay = 1;
-    const date = moment([m.year(), firstStudyMonth, firstStudyDay, 0, 0]).day(entry.day);
+    const date = moment([m.year(), firstStudyMonth, firstStudyDay, 0, 0]).day(entry.day + 1);
 
     // shift the date of first course day by a week for second-week schedule.
     if (entry.week === 1) {

@@ -141,8 +141,15 @@ a:hover {
     margin: 20px auto;
 }
 
+img {
+    display: block;
+    width: 400px;
+    height: auto;
+    margin: 20px auto;
+}
+
 @media (max-width:900px)  {
-    .button {
+    .button, img {
         width: 250px;
     }
 }
