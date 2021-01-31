@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import { GetGroupsResponse } from '../types';
 
 export type ExportInputScreenProps = {
-    onSubmit: (groupName: string, calendarName: string) => void,
+    onSubmit: (groupName: string, calendarName: string, studentName: string) => void,
 };
 
 export const ExportInputScreen = (props: ExportInputScreenProps) => {
@@ -10,6 +10,7 @@ export const ExportInputScreen = (props: ExportInputScreenProps) => {
 
     const [selectedGroup, updateSelectedGroup] = useState<string>(localStorage.group || '');
     const [calendarName, updateCalendarName] = useState<string>(localStorage.calendar || 'KPI Schedule');
+    const [studentName, updateStudentName] = useState<string>(localStorage.studentName || '');
 
     useEffect(() => {
         getGroups().then(setGroups);
@@ -46,6 +47,18 @@ export const ExportInputScreen = (props: ExportInputScreenProps) => {
         </div>
     ) : (<></>);
 
+    const isCustomScheduleSupported = selectedGroup == 'ІП-82';
+    const studentNameInput = (
+        <InputBlock>
+            <label htmlFor="student_name">Your last name (optional):</label>
+            <input name="student_name" placeholder="For example: Волобуев" value={studentName} onChange={e => {
+                const studentName = e.target.value;
+                localStorage.studentName = studentName;
+                updateStudentName(studentName);
+            }}/>
+        </InputBlock>
+    );
+
     return (
         <div>
             <InputBlock>
@@ -58,6 +71,7 @@ export const ExportInputScreen = (props: ExportInputScreenProps) => {
 
                 { completionElement }
             </InputBlock>
+            { isCustomScheduleSupported ? studentNameInput : undefined }
             <InputBlock>
                 <label htmlFor="group_name">Calendar Name:</label>
                 <input name="group_name" value={calendarName} onChange={e => {
@@ -67,7 +81,11 @@ export const ExportInputScreen = (props: ExportInputScreenProps) => {
                 }} />
             </InputBlock>
             <InputBlock>
-                <button disabled={groups.indexOf(selectedGroup) == -1} onClick={() => props.onSubmit(selectedGroup, calendarName)} >Export to Google Calendar</button>
+                <button
+                    disabled={groups.indexOf(selectedGroup) == -1}
+                    onClick={() => props.onSubmit(selectedGroup, calendarName, studentName)}>
+                    Export to Google Calendar
+                </button>
             </InputBlock>
         </div>
     );

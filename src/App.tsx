@@ -25,6 +25,7 @@ export const App = () => {
 
     const [selectedGroup, setSelectedGroup] = useState<string>('');
     const [selectedCalendarName, setSelectedCalendarName] = useState<string>('');
+    const [selectedStudentName, setSelectedStudentName] = useState<string>('');
 
     const [progressCurrent, setProgressCurrent] = useState<number>(0);
     const [progressTotal, setProgressTotal] = useState<number>(0);
@@ -47,12 +48,13 @@ export const App = () => {
                     progressCurrent,
                     progressTotal,
                     setScreen,
-                    async (groupName: string, calendarName: string) => {
+                    async (groupName: string, calendarName: string, studentName: string) => {
                         setSelectedGroup(groupName);
                         setSelectedCalendarName(calendarName);
-                        await exportScheduleFn(groupName, calendarName);
+                        setSelectedStudentName(studentName);
+                        await exportScheduleFn(groupName, calendarName, studentName);
                     },
-                    () => exportScheduleFn(selectedGroup, selectedCalendarName)
+                    () => exportScheduleFn(selectedGroup, selectedCalendarName, selectedStudentName)
                 ) }
             </main>
             <footer>
@@ -66,7 +68,7 @@ const screenElementByType = (type: Screen,
                              progressCurrent: number,
                              progressTotal: number,
                              setScreen: (s: Screen) => void,
-                             onExportParamsSelected: (groupName: string, calendarName: string) => void,
+                             onExportParamsSelected: (groupName: string, calendarName: string, studentName: string) => void,
                              onAuthIntroDone: () => void) => {
     switch (type)
     {
@@ -81,7 +83,8 @@ const screenElementByType = (type: Screen,
     }
 };
 
-const exportSchedule = (setScreen: (s: Screen) => void, updateProgress: (progress: number, total: number) => void) => async (groupName: string, calendarName: string) => {
+const exportSchedule = (setScreen: (s: Screen) => void, updateProgress: (progress: number, total: number) => void) =>
+    async (groupName: string, calendarName: string, studentName: string) => {
     if (localStorage.authDone === undefined) {
         localStorage.authDone = true;
         setScreen('auth_intro');
@@ -89,7 +92,7 @@ const exportSchedule = (setScreen: (s: Screen) => void, updateProgress: (progres
     }
 
     const token = await get_google_token();
-    const schedule = await scheduleForGroup(groupName);
+    const schedule = await scheduleForGroup(groupName, studentName);
 
     const progressTotal = schedule.entries.length + 1;
     let progressCounter = 0;
@@ -152,6 +155,8 @@ const create_calendar_event = (entry: GroupScheduleEntry): CalendarEntry => {
     const timeStart = lecture_start_time(entry.index);
     const timeEnd = lecture_end_time(entry.index);
 
+    console.log('x', entry.names, entry.index, timeStart, timeEnd);
+
     return {
         summary: lessonName,
         description: `${lessonName}\nВикладач: ${lecturerName}`,
@@ -176,13 +181,13 @@ const lecture_start_time = (index: number): string => {
             return '08:30';
         case 1:
             return '10:25';
-        case 3:
+        case 2:
             return '12:20';
-        case 4:
+        case 3:
             return '14:15';
-        case 5:
+        case 4:
             return '16:10';
-        case 6:
+        case 5:
             return '18:30';
         default:
             return '20:00'; // haha
@@ -195,13 +200,13 @@ const lecture_end_time = (index: number): string => {
             return '10:10';
         case 1:
             return '12:05';
-        case 3:
+        case 2:
             return '14:00';
-        case 4:
+        case 3:
             return '15:55';
-        case 5:
+        case 4:
             return '18:15';
-        case 6:
+        case 5:
             return '20:00';
         default:
             return '21:30'; // haha
@@ -263,9 +268,13 @@ const get_google_token = (): Promise<GoogleOAuthToken> => new Promise((resolve, 
     }
 });
 
-const scheduleForGroup = async (groupName: string): Promise<GetScheduleResponse> => new Promise<GetScheduleResponse>((resolve, reject) => {
+const scheduleForGroup = async (groupName: string, studentName: string): Promise<GetScheduleResponse> => new Promise<GetScheduleResponse>((resolve, reject) => {
+    const reqUrl = (studentName || '').trim() !== ''
+        ? `/schedule/${groupName}?lastName=${studentName}`
+        : `/groups/${groupName}`;
+
     const req = new XMLHttpRequest();
-    req.open('GET', `/groups/${groupName}`, true);
+    req.open('GET', reqUrl, true);
     req.onreadystatechange = () => {
         if (req.readyState === 4 && req.status === 200) {
             resolve(JSON.parse(req.responseText) as GetScheduleResponse);
