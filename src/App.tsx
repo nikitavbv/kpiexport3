@@ -152,10 +152,10 @@ const create_calendar_event = (entry: GroupScheduleEntry): CalendarEntry => {
     const lecturerName = entry.lecturers.join(' | ');
     const location = entry.locations.join(' | ');
 
-    const timeStart = lecture_start_time(entry.index);
-    const timeEnd = lecture_end_time(entry.index);
+    const formatTime = (time: string) => moment(time, 'HH:mm').utc().format('HH:mm');
 
-    console.log('x', entry.names, entry.index, timeStart, timeEnd);
+    const timeStart = formatTime(lecture_start_time(entry.index));
+    const timeEnd = formatTime(lecture_end_time(entry.index));
 
     return {
         summary: lessonName,
