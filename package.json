@@ -29,8 +29,7 @@
   },
   "devDependencies": {
     "http-server": "^0.12.3",
-    "less": "^3.11.3",
-    "typescript": "^3.9.6"
+    "less": "^3.11.3"
   },
   "browserslist": {
     "production": [
