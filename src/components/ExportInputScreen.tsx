@@ -35,7 +35,7 @@ export const ExportInputScreen = (props: ExportInputScreenProps) => {
         const groupLower = t.toLowerCase();
         const selectedLower = selectedGroup.toLowerCase();
 
-        return t != selectedGroup && (groupLower.startsWith(selectedLower) || transliterate(groupLower).startsWith(transliterate(selectedLower)))
+        return t !== selectedGroup && (groupLower.startsWith(selectedLower) || transliterate(groupLower).startsWith(transliterate(selectedLower)))
     }).slice(0, 5);
 
     const completionElement = autoCompletions.length > 0 ? (
@@ -47,7 +47,7 @@ export const ExportInputScreen = (props: ExportInputScreenProps) => {
         </div>
     ) : (<></>);
 
-    const isCustomScheduleSupported = selectedGroup == 'ІП-82';
+    const isCustomScheduleSupported = selectedGroup === 'ІП-82';
     const studentNameInput = (
         <InputBlock>
             <label htmlFor="student_name">Your last name (optional):</label>
@@ -82,7 +82,7 @@ export const ExportInputScreen = (props: ExportInputScreenProps) => {
             </InputBlock>
             <InputBlock>
                 <button
-                    disabled={groups.indexOf(selectedGroup) == -1}
+                    disabled={groups.indexOf(selectedGroup) === -1}
                     onClick={() => props.onSubmit(selectedGroup, calendarName, studentName)}>
                     Export to Google Calendar
                 </button>
