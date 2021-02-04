@@ -252,7 +252,6 @@ const get_google_token = (): Promise<GoogleOAuthToken> => new Promise((resolve, 
                 if (match) {
                     tab.close();
                     clearInterval(timer);
-                    console.log('resolving with match: \"' + match[1] + '\"');
                     resolve(match[1]);
                 } else if (tab.document.location.hash === '#error=access_denied') {
                     tab.close();
