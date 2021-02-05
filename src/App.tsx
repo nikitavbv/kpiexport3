@@ -255,7 +255,6 @@ const get_google_token = (): Promise<GoogleOAuthToken> => new Promise((resolve, 
                     resolve(match[1]);
                 } else if (tab.document.location.hash === '#error=access_denied') {
                     tab.close();
-                    console.log('resolving with error');
                     reject('You have to allow access to your Google profile to use this app.');
                 }
             } catch(e) {
