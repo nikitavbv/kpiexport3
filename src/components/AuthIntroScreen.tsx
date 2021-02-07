@@ -9,7 +9,7 @@ export const AuthIntroScreen = (props: AuthIntroScreenProps) => (
         <h2>Please grant access</h2>
         <div>
             <img src={'/oauth.png'} alt={'oauth instructions'} />
-            <a className='button' onClick={() => props.onDone()}>Ok, continue</a>
+            <button className='button' onClick={() => props.onDone()}>Ok, continue</button>
         </div>
     </div>
 );
