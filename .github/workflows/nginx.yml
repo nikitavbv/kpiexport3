@@ -8,4 +8,4 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Build
-        run: docker build -f kpiexport_frontend/nginx/Dockerfile .
+        run: docker build -f kpiexport_frontend/nginx/Dockerfile kpiexport_frontend
