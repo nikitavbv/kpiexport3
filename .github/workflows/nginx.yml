@@ -6,9 +6,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v1
       - uses: actions/setup-node@v2
       - name: build frontend
         run: cd kpiexport_frontend && yarn install && yarn build && cd ..
-      - uses: actions/checkout@v1
       - name: Build
         run: docker build -f kpiexport_frontend/nginx/Dockerfile kpiexport_frontend
