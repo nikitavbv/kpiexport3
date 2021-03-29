@@ -20,7 +20,7 @@ import {oauthClientId} from './constants';
 import moment from 'moment';
 
 export const App = () => {
-    const [error, setError] = useState<string|undefined>(undefined);
+    const [error] = useState<string|undefined>(undefined);
     const [screen, setScreen] = useState<Screen>('input');
 
     const [selectedGroup, setSelectedGroup] = useState<string>('');
