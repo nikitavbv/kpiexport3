@@ -11,7 +11,7 @@ export const ExportFinishedScreen = (props: ExportFinishedScreenProps) => (
         <h2>Export finished!</h2>
         <div>
             <a className='button' href='https://calendar.google.com'>Go to your calendar</a>
-            <a className='button' onClick={() => props.setScreen('input')}>Back</a>
+            <button className='button' onClick={() => props.setScreen('input')}>Back</button>
         </div>
     </div>
 );
