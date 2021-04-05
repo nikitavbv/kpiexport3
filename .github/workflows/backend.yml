@@ -23,7 +23,7 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
       - name: Run tests
-        run: cargo test
+        run: cd kpiexport && cargo test
       - name: Build
-        run: cargo build --release
+        run: cd kpiexport && cargo build --release
 
