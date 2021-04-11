@@ -26,10 +26,9 @@ jobs:
         run: cd kpiexport && cargo test
       - name: Build
         run: cd kpiexport && cargo build --release
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+  build docker:
+    runs-on: ubuntu-latest
+    steps:
       - name: Publish docker image to Github Packages
         uses: docker/build-push-action@v2
         with:
