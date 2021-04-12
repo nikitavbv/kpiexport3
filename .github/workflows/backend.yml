@@ -26,7 +26,7 @@ jobs:
         run: cd kpiexport && cargo test
       - name: Build
         run: cd kpiexport && cargo build --release
-  build docker:
+  build_docker:
     runs-on: ubuntu-latest
     steps:
       - name: Publish docker image to Github Packages
