@@ -26,6 +26,11 @@ jobs:
         run: cd kpiexport && cargo test
       - name: Build
         run: cd kpiexport && cargo build --release
+      - name: Release binary
+        uses: actions/upload-artifact@v2
+        with:
+          name: release-binary
+          path: kpiexport/target/release/kpiexport
   build_docker:
     runs-on: ubuntu-latest
     steps:
