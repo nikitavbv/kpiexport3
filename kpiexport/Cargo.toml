@@ -8,7 +8,7 @@ edition = "2018"
 
 [dependencies]
 reqwest = { version = "0.10.6", features = ["json", "cookies"] }
-openssl = { version = "0.10.29", features = ["vendored"] }
+openssl = { version = "0.10.36", features = ["vendored"] }
 actix-rt = "1.1.1"
 actix-web = "2.0.0"
 custom_error = "1.7.1"
