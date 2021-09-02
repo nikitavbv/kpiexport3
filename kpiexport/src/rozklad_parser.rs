@@ -303,12 +303,17 @@ mod tests {
 
     #[actix_rt::test]
     async fn rozklad_get_id_ip82() {
-        assert_eq!(group_id_by_name(&reqwest::Client::new(), "ІП-82").await.unwrap(), "494e5743-35fb-4a3f-b868-44662e6cd66e");   
+        let ip82_group_id = group_id_by_name(&reqwest::Client::new(), "ІП-82").await.unwrap();
+        let ip81_group_id = group_id_by_name(&reqwest::Client::new(), "ІП-81").await.unwrap();
+
+        assert_eq!(ip82_group_id.len(), 36);
+        assert!(ip82_group_id != ip81_group_id);
     }
 
     #[actix_rt::test]
     async fn rozklad_schedule_ip82() {
-        assert_gt!(group_schedule(&reqwest::Client::new(), "494e5743-35fb-4a3f-b868-44662e6cd66e").await.unwrap().0.entries.len(), 0);
+        let ip82_group_id = group_id_by_name(&reqwest::Client::new(), "ІП-82").await.unwrap();
+        assert_gt!(group_schedule(&reqwest::Client::new(), &ip82_group_id).await.unwrap().0.entries.len(), 0);
     }
 
     #[actix_rt::test]
