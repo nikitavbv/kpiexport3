@@ -307,7 +307,7 @@ mod tests {
         let ip81_group_id = group_id_by_name(&reqwest::Client::new(), "ІП-81").await.unwrap();
 
         assert_eq!(ip82_group_id.len(), 36);
-        assert!(ip82_group_id != ip81_group_id);
+        assert_ne!(ip82_group_id, ip81_group_id);
     }
 
     #[actix_rt::test]

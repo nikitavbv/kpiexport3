@@ -7,7 +7,7 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-reqwest = { version = "0.10.6", features = ["json", "cookies"] }
+reqwest = { version = "0.11.4", features = ["json", "cookies"] }
 openssl = { version = "0.10.36", features = ["vendored"] }
 actix-rt = "1.1.1"
 actix-web = "2.0.0"
@@ -25,3 +25,4 @@ serde_derive = "1.0.115"
 chrono = "0.4.19"
 levenshtein = "1.0.5"
 translit = "0.5.0"
+tokio = { version = "1.11.0", features = ["full"] }
