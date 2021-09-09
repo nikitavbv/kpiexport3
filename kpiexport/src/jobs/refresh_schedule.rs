@@ -5,7 +5,7 @@ use chrono::{DateTime, Utc, Datelike};
 use tokio_postgres::{Client, Transaction};
 
 use crate::database::database_connection;
-use crate::models::schedule_queries::{api_groups_to_refresh, groups_with_old_schedule, remove_old_schedule_from_database, remove_old_schedule_from_database_transaction, save_schedule_to_database_transaction};
+use crate::models::schedule_queries::{api_groups_to_refresh, groups_with_old_schedule, remove_old_schedule_from_database_transaction, save_schedule_to_database_transaction};
 use crate::rozklad::group_schedule_by_name;
 
 pub async fn refresh_schedule() -> IOResult<()> {
