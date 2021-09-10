@@ -268,7 +268,7 @@ const get_google_token = (): Promise<GoogleOAuthToken> => new Promise((resolve, 
 
 const scheduleForGroup = async (groupName: string, studentName: string): Promise<GetScheduleResponse> => new Promise<GetScheduleResponse>((resolve, reject) => {
     const reqUrl = (studentName || '').trim() !== ''
-        ? `/schedule/${groupName}?lastName=${studentName}`
+        ? `/v1/schedule/${groupName}?lastName=${studentName}`
         : `/groups/${groupName}`;
 
     const req = new XMLHttpRequest();
