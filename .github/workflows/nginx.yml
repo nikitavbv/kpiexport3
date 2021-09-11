@@ -10,10 +10,8 @@ jobs:
       - uses: actions/setup-node@v2
       - name: build frontend
         run: cd kpiexport_frontend && yarn install && yarn build && cd ..
-      - name: Build
-        run: docker build -t docker.pkg.github.com/nikitavbv/kpiexport3/frontend -f kpiexport_frontend/nginx/Dockerfile kpiexport_frontend
       - name: Publish docker image to Github Packages
         uses: docker/build-push-action@v2
         with:
           tags: docker.pkg.github.com/nikitavbv/kpiexport3/frontend
-          context: kpiexport
+          context: kpiexport_frontend
