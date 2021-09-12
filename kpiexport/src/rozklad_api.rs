@@ -109,13 +109,14 @@ mod tests {
     use super::*;
     use more_asserts::assert_gt;
 
-    #[actix_rt::test]
+    #[tokio::test]
     async fn rozklad_get_id_ip82() {
         // note that id does not match the one scrapped. - update Jan 2021 - why?
-        assert_eq!(group_id_by_name(&reqwest::Client::new(), "ІП-82").await.unwrap(), "494e5743-35fb-4a3f-b868-44662e6cd66e");
+        // Changed again in September 2021 - as far as I understand it updates with a delay after rozklad update.
+        assert_eq!(group_id_by_name(&reqwest::Client::new(), "ІП-82").await.unwrap(), "92316a0c-5da0-496a-8fd7-378d3c78cc2d");
     }
 
-    #[actix_rt::test]
+    #[tokio::test]
     async fn rozklad_group_schedule_ip82() {
         assert_gt!(group_schedule(&reqwest::Client::new(), "ІП-82").await.unwrap().entries.len(), 0);
     }

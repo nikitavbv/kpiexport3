@@ -301,7 +301,7 @@ mod tests {
     use super::*;
     use more_asserts::assert_gt;
 
-    #[actix_rt::test]
+    #[tokio::test]
     async fn rozklad_get_id_ip82() {
         let ip82_group_id = group_id_by_name(&reqwest::Client::new(), "ІП-82").await.unwrap();
         let ip81_group_id = group_id_by_name(&reqwest::Client::new(), "ІП-81").await.unwrap();
@@ -310,18 +310,18 @@ mod tests {
         assert_ne!(ip82_group_id, ip81_group_id);
     }
 
-    #[actix_rt::test]
+    #[tokio::test]
     async fn rozklad_schedule_ip82() {
         let ip82_group_id = group_id_by_name(&reqwest::Client::new(), "ІП-82").await.unwrap();
         assert_gt!(group_schedule(&reqwest::Client::new(), &ip82_group_id).await.unwrap().0.entries.len(), 0);
     }
 
-    #[actix_rt::test]
+    #[tokio::test]
     async fn rozklad_schedule_ip82_second_term() {
         println!("result is {:?}", group_schedule_second_term(&reqwest::Client::new(), "494e5743-35fb-4a3f-b868-44662e6cd66e").await.unwrap().entries);
     }
 
-    #[actix_rt::test]
+    #[tokio::test]
     async fn rozklad_groups() {
         assert_gt!(get_groups_with_prefix(&reqwest::Client::new(), "І").await.unwrap().len(), 0);
     }
