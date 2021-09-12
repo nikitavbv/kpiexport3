@@ -1,0 +1,3 @@
+build frontend:
+  script:
+    - echo 'hello gitlab ci'
