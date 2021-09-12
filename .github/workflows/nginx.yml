@@ -13,6 +13,6 @@ jobs:
       - name: Publish docker image to Github Packages
         uses: docker/build-push-action@v2
         with:
-          tags: docker.pkg.github.com/nikitavbv/kpiexport3/frontend
+          tags: frontend:latest
           context: kpiexport_frontend
           file: kpiexport_frontend/nginx/Dockerfile
