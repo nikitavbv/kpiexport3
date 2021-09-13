@@ -102,7 +102,8 @@ async fn group_schedule(group_name: web::Path<GroupName>) -> impl Responder {
             if let Err(err) = remove_old_schedule_from_database(&database, &group_name.group_name).await {
                 error!("failed to remove schedule from database: {}", err);
             }
-
+            info!("removed old schedule from database if present");
+            
             let schedule = match group_schedule_by_name(&client, &group_name.group_name).await {
                 Ok(v) => v,
                 Err(err) => {
