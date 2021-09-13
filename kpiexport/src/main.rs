@@ -43,7 +43,7 @@ struct GroupName {
     group_name: String
 }
 
-#[actix_rt::main]
+#[tokio::main]
 async fn main() -> std::io::Result<()> {
     env_logger::init();
 
