@@ -35,6 +35,11 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - uses: google-github-actions/setup-gcloud@master
+        with:
+          project_id: ${{ secrets.GOOGLE_CLOUD_PROJECT_ID }}
+          service_account_key: ${{ secrets.GOOGLE_CLOUD_SERVICE_ACCOUNT_KEY }}
+          export_default_credentials: true
       - uses: actions/checkout@v2
       - name: Download a single artifact
         uses: actions/download-artifact@v2
