@@ -5,7 +5,7 @@ extern crate custom_error;
 
 use rozklad::group_schedule_by_name;
 use actix_web::{App, HttpServer, Responder, get, HttpResponse, web };
-use config::{bind_address};
+use config::bind_address;
 use prometheus::{TextEncoder, Encoder, Counter, register_counter, opts};
 use database::database_connection;
 use errors::PersistenceError;
@@ -110,7 +110,7 @@ async fn group_schedule(group_name: web::Path<GroupName>) -> impl Responder {
                     return HttpResponse::InternalServerError().body("failed to get group schedule");
                 }
             };
-        
+
             if let Err(err) = save_schedule_to_database(&database, &group_name.group_name, &schedule).await {
                 error!("failed to save schedule to database: {}", err);
             }
