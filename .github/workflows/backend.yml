@@ -47,9 +47,10 @@ jobs:
         with:
           name: release-binary
           path: kpiexport/target/release/kpiexport
-      - name: Publish docker image to Github Packages
+      - name: Publish docker image to eu.gcr.io
         uses: docker/build-push-action@v2
         with:
           tags: "eu.gcr.io/nikitavbv/nikitavbv/kpiexport:0.1.${{ github.run_number }}"
           push: true
           context: kpiexport
+      - run: echo "Pushed eu.gcr.io/nikitavbv/nikitavbv/kpiexport:0.1.${{ github.run_number }}"
