@@ -10,7 +10,7 @@ edition = "2018"
 reqwest = { version = "0.11.4", features = ["json", "cookies"] }
 openssl = { version = "0.10.36", features = ["vendored"] }
 actix-rt = "1.1.1"
-actix-web = "4.0.0-beta.9"
+actix-web = "3.3.2"
 custom_error = "1.7.1"
 scraper = "0.12.0"
 more-asserts = "0.2.1"
