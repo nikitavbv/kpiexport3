@@ -18,7 +18,7 @@ provider "google-beta" {
 variable "service_version" {
     type = string
     description = "Version of image to deploy"
-    default = "0.1.66"
+    default = "0.1.72"
 }
 
 resource "google_secret_manager_secret" "postgres_password" {
@@ -50,6 +50,8 @@ resource "google_cloud_run_service" "api_service" {
         metadata {
             annotations = {
                 "autoscaling.knative.dev/maxScale" = "5"
+                "run.googleapis.com/vpc-access-connector" = "projects/nikitavbv/locations/europe-central2/connectors/cloud-run-api-connector-w"
+                "run.googleapis.com/vpc-access-egress"    = "all-traffic"
             }
         }
 
