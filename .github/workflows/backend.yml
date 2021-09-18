@@ -54,3 +54,6 @@ jobs:
           push: true
           context: kpiexport
       - run: echo "Pushed eu.gcr.io/nikitavbv/nikitavbv/kpiexport:0.1.${{ github.run_number }}"
+      - uses: hashicorp/setup-terraform@v1
+      - run: terraform init
+        working-directory: infrastructure/terraform
