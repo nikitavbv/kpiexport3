@@ -49,6 +49,21 @@ resource "google_cloud_run_service" "api_service" {
     
             containers {
                 image = "eu.gcr.io/nikitavbv/nikitavbv/kpiexport:${var.service_version}"
+
+                env {
+                    name = "RUST_BACKTRACE"
+                    value = "1"
+                }
+
+                env {
+                    name = "RUST_LOG"
+                    value = "info"
+                }
+
+                env {
+                    name = "POSTGRES_HOST"
+                    value = "postgres.nikitavbv.com"
+                }
             }
         }
     }
