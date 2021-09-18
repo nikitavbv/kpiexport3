@@ -65,3 +65,7 @@ jobs:
         working-directory: infrastructure/terraform
         env:
           GOOGLE_APPLICATION_CREDENTIALS: ./service_account_key.json
+      - run: terraform apply -var="service_version=$IMAGE_VERSION_PREFIX.$CI_PIPELINE_IID" -input=false -auto-approve
+        working-directory: infrastructure/terraform
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: ./service_account_key.json
