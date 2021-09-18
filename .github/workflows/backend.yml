@@ -55,5 +55,12 @@ jobs:
           context: kpiexport
       - run: echo "Pushed eu.gcr.io/nikitavbv/nikitavbv/kpiexport:0.1.${{ github.run_number }}"
       - uses: hashicorp/setup-terraform@v1
+      - name: save gcloud service account key
+        run: 'echo "$SERVICE_ACCOUNT_KEY" >> ./service_account_key.json'
+        shell: bash
+        env:
+          SERVICE_ACCOUNT_KEY : ${{ secrets.GOOGLE_CLOUD_SERVICE_ACCOUNT_KEY }}
       - run: terraform init
         working-directory: infrastructure/terraform
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: ./service_account_key.json
