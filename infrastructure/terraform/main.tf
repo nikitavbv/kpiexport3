@@ -21,6 +21,15 @@ variable "service_version" {
     default = "0.1.66"
 }
 
+resource "google_secret_manager_secret" "postgres_password" {
+    provider = google-beta
+
+    secret_id = "postgres_api_password"
+    replication {
+        automatic = true
+    }
+}
+
 resource "google_cloud_run_service" "api_service" {
     provider = google-beta
 
@@ -63,6 +72,16 @@ resource "google_cloud_run_service" "api_service" {
                 env {
                     name = "POSTGRES_HOST"
                     value = "postgres.nikitavbv.com"
+                }
+
+                env {
+                    name = "POSTGRES_PASSWORD"
+                    value_from {
+                        secret_key_ref {
+                            name = google_secret_manager_secret.postgres_password.secret_id
+                            key = "latest"
+                        }
+                    }
                 }
             }
         }
