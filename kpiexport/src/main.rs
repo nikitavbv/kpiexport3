@@ -47,6 +47,8 @@ struct GroupName {
 async fn main() -> std::io::Result<()> {
     env_logger::init();
 
+    info!("starting kpiexport");
+
     let args: Vec<String> = env::vars().map(|v| v.0).collect();
     let contains_refresh_groups = args.contains(&"KPIEXPORT_REFRESH_GROUPS_JOB".to_string());
     let contains_refresh_schedule = args.contains(&"KPIEXPORT_REFRESH_SCHEDULE_JOB".to_string());
@@ -76,6 +78,8 @@ async fn start_webserver() -> std::io::Result<()> {
 
 #[get("/groups/{group_name}")]
 async fn group_schedule(group_name: web::Path<GroupName>) -> impl Responder {
+    info!("group schedule request");
+
     GROUP_SCHEDULE_REQUESTS.inc();
 
     let client = reqwest::Client::new();
@@ -125,6 +129,8 @@ async fn group_schedule(group_name: web::Path<GroupName>) -> impl Responder {
 
 #[get("/groups")]
 async fn groups() -> impl Responder {
+    info!("groups list request");
+
     GROUPS_LIST_REQUESTS.inc();
 
     let client = reqwest::Client::new();
