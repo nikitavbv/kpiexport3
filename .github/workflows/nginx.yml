@@ -22,4 +22,5 @@ jobs:
           tags: "eu.gcr.io/nikitavbv/nikitavbv/kpiexport_frontend:0.1.${{ github.run_number }}"
           push: true
           context: kpiexport_frontend
+          file: kpiexport_frontend/nginx/Dockerfile
       - run: echo "Pushed eu.gcr.io/nikitavbv/nikitavbv/kpiexport:0.1.${{ github.run_number }}"
