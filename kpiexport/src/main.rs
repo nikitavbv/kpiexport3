@@ -47,8 +47,6 @@ struct GroupName {
 async fn main() -> std::io::Result<()> {
     env_logger::init();
 
-    info!("starting kpiexport");
-
     let args: Vec<String> = env::vars().map(|v| v.0).collect();
     let contains_refresh_groups = args.contains(&"KPIEXPORT_REFRESH_GROUPS_JOB".to_string());
     let contains_refresh_schedule = args.contains(&"KPIEXPORT_REFRESH_SCHEDULE_JOB".to_string());
@@ -60,6 +58,7 @@ async fn main() -> std::io::Result<()> {
         println!("starting refresh schedule job");
         refresh_schedule().await
     } else {
+        info!("starting kpiexport webserver");
         start_webserver().await
     }
 }

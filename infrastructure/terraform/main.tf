@@ -18,7 +18,7 @@ provider "google-beta" {
 variable "service_version" {
     type = string
     description = "Version of image to deploy"
-    default = "0.1.74"
+    default = "0.1.76"
 }
 
 resource "google_secret_manager_secret" "postgres_password" {

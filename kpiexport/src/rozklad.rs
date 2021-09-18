@@ -9,7 +9,8 @@ pub async fn group_schedule_by_name(client: &reqwest::Client, name: &str) -> Res
         Ok(id) => {
             info!("group id is: {}", id);
 
-            match rozklad_parser::group_schedule_second_term(&client, &id).await {
+            // match rozklad_parser::group_schedule_second_term(&client, &id).await {
+            match rozklad_parser::group_schedule(&client, &id).await.map(|v| v.0) { 
                 Ok(schedule) => Ok(schedule),
                 Err(err) => {
                     error!("failed to get rozklad using parser: {}", err);
