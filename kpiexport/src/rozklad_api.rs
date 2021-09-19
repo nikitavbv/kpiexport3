@@ -84,7 +84,7 @@ pub async fn group_schedule(client: &reqwest::Client, name: &str) -> Result<Grou
         }
     }
 
-    Ok(GroupSchedule { entries, source: GroupScheduleSource::API })
+    Ok(GroupSchedule { entries, source: Some(GroupScheduleSource::API) })
 }
 
 // get group id by name

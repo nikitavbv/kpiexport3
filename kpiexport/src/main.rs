@@ -244,5 +244,5 @@ async fn load_group_schedule_from_database(database: &tokio_postgres::Client, gr
         }
     }
 
-    Ok(source.map(|source| GroupSchedule { source, entries }))
+    Ok(source.map(|source| GroupSchedule { source: Some(source), entries }))
 }

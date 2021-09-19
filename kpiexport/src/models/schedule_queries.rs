@@ -29,7 +29,7 @@ pub async fn save_schedule_to_database(database: &tokio_postgres::Client, group_
 
         if let Err(err) = database.execute(
             "insert into schedule (group_name, source, week, day, index, names, lecturers, locations) values ($1, $2, $3, $4, $5, $6, $7, $8)",
-            &[&group_name, &schedule.source.to_string(), &week_index, &day_index, &index, &entry.names, &entry.lecturers, &entry.locations]
+            &[&group_name, &schedule.source.as_ref().unwrap().to_string(), &week_index, &day_index, &index, &entry.names, &entry.lecturers, &entry.locations]
         ).await {
             error!("failed to save entry to database: {}", err);
         }
@@ -47,7 +47,7 @@ pub async fn save_schedule_to_database_transaction(database: &Transaction<'_>, g
 
         if let Err(err) = database.execute(
             "insert into schedule (group_name, source, week, day, index, names, lecturers, locations) values ($1, $2, $3, $4, $5, $6, $7, $8)",
-            &[&group_name, &schedule.source.to_string(), &week_index, &day_index, &index, &entry.names, &entry.lecturers, &entry.locations]
+            &[&group_name, &schedule.source.as_ref().unwrap().to_string(), &week_index, &day_index, &index, &entry.names, &entry.lecturers, &entry.locations]
         ).await {
             error!("failed to save entry to database: {}", err);
         }

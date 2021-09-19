@@ -5,7 +5,7 @@ use serde::{Serializer, Serialize, Deserialize};
 pub struct GroupSchedule {
     pub entries: Vec<GroupScheduleEntry>,
     #[serde(skip_serializing)]
-    pub source: GroupScheduleSource,
+    pub source: Option<GroupScheduleSource>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]

@@ -102,7 +102,7 @@ fn group_schedule_from_html(html: &str) -> Result<(GroupSchedule, GroupScheduleP
     let eventvalidation = get_input_value(&make_selector_and_select(&document, "#__EVENTVALIDATION")?)?;
 
     Ok((
-        GroupSchedule { entries, source: GroupScheduleSource::Parser },
+        GroupSchedule { entries, source: Some(GroupScheduleSource::Parser) },
         GroupSchedulePageFormData {
             viewstate,
             eventvalidation
