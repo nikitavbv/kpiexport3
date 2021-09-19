@@ -1,14 +1,14 @@
 use std::fmt::Debug;
-use serde::{Serializer, Serialize};
+use serde::{Serializer, Serialize, Deserialize};
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct GroupSchedule {
     pub entries: Vec<GroupScheduleEntry>,
     #[serde(skip_serializing)]
     pub source: GroupScheduleSource,
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct GroupScheduleEntry {
     pub week: ScheduleWeek,
     pub day: ScheduleDay,
@@ -80,6 +80,13 @@ impl Serialize for ScheduleDay {
     }
 }
 
+impl <'de> Deserialize<'de> for ScheduleDay {
+    
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error> where D: serde::Deserializer<'de> {
+        Ok(Self::from_index(i16::deserialize(deserializer)? as u8))
+    }
+}
+
 #[derive(Clone, Debug)]
 pub enum ScheduleWeek {
     First,
@@ -115,7 +122,14 @@ impl Serialize for ScheduleWeek {
     }
 }
 
-#[derive(Clone, Debug, Serialize)]
+impl <'de> Deserialize<'de> for ScheduleWeek {
+    
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error> where D: serde::Deserializer<'de> {
+        Ok(Self::from_index(i16::deserialize(deserializer)? as u8))
+    }
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
 pub enum GroupScheduleSource {
     Parser,
     API,
