@@ -40,9 +40,9 @@ pub async fn refresh_groups() -> IOResult<()> {
         let transaction = database.transaction().await
             .expect("failed to start transaction");
 
-        delete_all_groups_transaction(&transaction).await;
+        delete_all_groups_transaction(&transaction).await.unwrap();
         for group in &groups {
-            add_group_transaction(&transaction, group).await;
+            add_group_transaction(&transaction, group).await.unwrap();
         }
 
         transaction.commit().await.expect("failed to commit transaction");
