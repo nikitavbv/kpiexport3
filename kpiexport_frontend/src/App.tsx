@@ -171,7 +171,7 @@ const create_calendar_event = (entry: GroupScheduleEntry): CalendarEntry => {
         recurrence: [
             `RRULE:FREQ=WEEKLY;INTERVAL=2;UNTIL=${moment().year()}${isSecondSemester ? '0610' : '1231'}T235959Z`
         ],
-        location: `НТУУ "КПІ" (${location})`
+        location: location,
     };
 };
 

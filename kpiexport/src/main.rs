@@ -123,6 +123,18 @@ async fn group_schedule(group_name: web::Path<GroupName>) -> impl Responder {
         }
     };
 
+    let schedule = GroupSchedule {
+        entries: schedule.entries.iter().map(|v| GroupScheduleEntry {
+            week: v.week.clone(),
+            day: v.day.clone(),
+            index: v.index.clone(),
+            names: v.names.clone(),
+            lecturers: v.lecturers.clone(),
+            locations: v.locations.iter().map(|v| format!("НТУУ \"КПІ\" ({})", v)).collect(),
+        }).collect(),
+        source: schedule.source,
+    };
+
     HttpResponse::Ok().json(schedule)
 }
 
