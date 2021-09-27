@@ -1,14 +1,14 @@
 use std::fmt::Debug;
 use serde::{Serializer, Serialize, Deserialize};
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GroupSchedule {
     pub entries: Vec<GroupScheduleEntry>,
     #[serde(skip_serializing)]
     pub source: Option<GroupScheduleSource>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GroupScheduleEntry {
     pub week: ScheduleWeek,
     pub day: ScheduleDay,
