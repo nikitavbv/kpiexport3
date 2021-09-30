@@ -1,5 +1,4 @@
 use tokio_postgres::{Client, Transaction};
-use actix_web::dev::Service;
 
 pub async fn total_groups_saved(database: &Client) -> Result<i64, tokio_postgres::Error> {
     database.query_one("select count(*) from schedule_groups", &[]).await
@@ -8,7 +7,7 @@ pub async fn total_groups_saved(database: &Client) -> Result<i64, tokio_postgres
 
 pub async fn total_old_groups(database: &Client, days_diff: i64) -> Result<i64, tokio_postgres::Error> {
     database.query_one(
-        "select count(*) from schedule_groups where inserted_at <= date_trunc('day', NOW() - cast($1 as interval))",
+        "select count(*) from schedule_groups where inserted_at <= date_trunc('day', NOW() - cast($1::text as interval))",
         &[&format!("{} days", days_diff)]
     ).await.map(|v| v.get("count"))
 }
