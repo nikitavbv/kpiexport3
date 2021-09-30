@@ -10,7 +10,7 @@ spec:
         spec:
           containers:
           - name: pg-backup-job
-            image: eu.gcr.io/nikitavbv/nikitavbv/kpiexport:0.1.91
+            image: eu.gcr.io/nikitavbv/nikitavbv/kpiexport:0.1.93
             imagePullPolicy: IfNotPresent
             env:
               - name: KPIEXPORT_REFRESH_GROUPS_JOB
