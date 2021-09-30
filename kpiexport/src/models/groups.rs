@@ -13,12 +13,12 @@ pub async fn total_old_groups(database: &Client, days_diff: i64) -> Result<i64, 
 }
 
 pub async fn delete_all_groups(database: &Client) -> Result<(), tokio_postgres::Error> {
-    database.query_one("delete from schedule_groups where 1", &[]).await
+    database.query_one("delete from schedule_groups where 1 = 1", &[]).await
         .map(|v| ())
 }
 
 pub async fn delete_all_groups_transaction(database: &Transaction<'_>) -> Result<(), tokio_postgres::Error> {
-    database.query_one("delete from schedule_groups where 1", &[]).await
+    database.query_one("delete from schedule_groups where 1 = 1", &[]).await
         .map(|v| ())
 }
 
