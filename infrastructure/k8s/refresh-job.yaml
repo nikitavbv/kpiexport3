@@ -1,0 +1,31 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: kpiexport-groups-refresh-job
+spec:
+  schedule: "0 0 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: pg-backup-job
+            image: eu.gcr.io/nikitavbv/nikitavbv/kpiexport:0.1.90	
+            imagePullPolicy: IfNotPresent
+            env:
+              - name: KPIEXPORT_REFRESH_GROUPS_JOB
+                value: "1"
+              - name: POSTGRES_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: postgres-password-api
+                    key: password
+              - name: POSTGRES_HOST
+                value: postgres.nikitavbv.com
+            resources:
+              requests:
+                memory: "512Mi"
+                cpu: 250m
+              limits:
+                memory: "512Mi"
+          restartPolicy: OnFailure
