@@ -104,7 +104,7 @@ pub async fn group_id_by_name(client: &reqwest::Client, name: &str) -> Result<St
 }
 
 // rozklad api test
-/*#[cfg(test)]
+#[cfg(test)]
 mod tests {
     use super::*;
     use more_asserts::assert_gt;
@@ -120,4 +120,4 @@ mod tests {
     async fn rozklad_group_schedule_ip82() {
         assert_gt!(group_schedule(&reqwest::Client::new(), "ІП-82").await.unwrap().entries.len(), 0);
     }
-}*/
+}
