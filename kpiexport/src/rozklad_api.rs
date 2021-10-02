@@ -87,34 +87,11 @@ pub async fn group_schedule(client: &reqwest::Client, name: &str) -> Result<Grou
     Ok(GroupSchedule { entries, source: Some(GroupScheduleSource::API) })
 }
 
-// get group id by name
-// for some reason this id seems to change every year, so it will not match rozklad if api is for prev year.
-pub async fn group_id_by_name(client: &reqwest::Client, name: &str) -> Result<String, RozkladParseError> {
-    let res = client.get(&format!("https://api.rozklad.org.ua/v2/groups/{}", name))
-        .send()
-        .await?;
-
-    if res.status() != 200 {
-        return Err(RozkladParseError::RozkladApiErrored);
-    }
-
-    let res: GroupInfoResult = res.json().await?;
-
-    group_id_from_url(&res.data.group_url)
-}
-
 // rozklad api test
 #[cfg(test)]
 mod tests {
     use super::*;
     use more_asserts::assert_gt;
-
-    #[tokio::test]
-    async fn rozklad_get_id_ip82() {
-        // note that id does not match the one scrapped. - update Jan 2021 - why?
-        // Changed again in September 2021 - as far as I understand it updates with a delay after rozklad update.
-        assert_eq!(group_id_by_name(&reqwest::Client::new(), "ІП-82").await.unwrap(), "92316a0c-5da0-496a-8fd7-378d3c78cc2d");
-    }
 
     #[tokio::test]
     async fn rozklad_group_schedule_ip82() {

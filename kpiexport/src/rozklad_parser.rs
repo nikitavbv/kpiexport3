@@ -11,6 +11,11 @@ const GROUP_PREFIXES: &'static [&'static str] = &[
     "С", "Т", "У", "Ф", "Х", "Ц", "Ч", "Ш", "Щ", "Ю", "Я"
 ];
 
+pub enum Term {
+    First,
+    Second
+}
+
 #[derive(Debug)]
 struct GroupSelectionPageFormData {
     // naming kept same to original form
@@ -296,7 +301,7 @@ fn get_attribute_value(element: &ElementRef, attr_name: &str) -> Result<String, 
 }
 
 // rozklad parser test
-/*#[cfg(test)]
+#[cfg(test)]
 mod tests {
     use super::*;
     use more_asserts::assert_gt;
@@ -325,4 +330,4 @@ mod tests {
     async fn rozklad_groups() {
         assert_gt!(get_groups_with_prefix(&reqwest::Client::new(), "І").await.unwrap().len(), 0);
     }
-}*/
+}
