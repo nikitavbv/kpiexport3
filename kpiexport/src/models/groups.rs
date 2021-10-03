@@ -14,17 +14,17 @@ pub async fn total_old_groups(database: &Client, days_diff: i64) -> Result<i64, 
 
 pub async fn delete_all_groups(database: &Client) -> Result<(), tokio_postgres::Error> {
     database.execute("delete from schedule_groups where 1 = 1", &[]).await
-        .map(|v| ())
+        .map(|_| ())
 }
 
 pub async fn delete_all_groups_transaction(database: &Transaction<'_>) -> Result<(), tokio_postgres::Error> {
     database.execute("delete from schedule_groups where 1 = 1", &[]).await
-        .map(|v| ())
+        .map(|_| ())
 }
 
 pub async fn add_group(database: &Client, group_name: &str) -> Result<(), tokio_postgres::Error> {
     database.execute("insert into schedule_groups (group_name) values ($1)", &[&group_name]).await
-        .map(|v| ())
+        .map(|_| ())
 }
 
 pub async fn add_group_transaction<'a>(database: &Transaction<'_>, group_name: &str) -> Result<(), tokio_postgres::Error> {
