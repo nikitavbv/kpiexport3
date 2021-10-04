@@ -1,6 +1,8 @@
 use std::{collections::HashMap};
+use chrono::{Datelike, Utc};
 use scraper::{Html, Selector, ElementRef};
 use serde::Deserialize;
+use async_recursion::async_recursion;
 use crate::models::schedule::*;
 use crate::errors::RozkladParseError;
 use crate::utils::group_id_from_url;
@@ -11,6 +13,7 @@ const GROUP_PREFIXES: &'static [&'static str] = &[
     "С", "Т", "У", "Ф", "Х", "Ц", "Ч", "Ш", "Щ", "Ю", "Я"
 ];
 
+#[derive(PartialEq, Eq, Debug)]
 pub enum Term {
     First,
     Second
@@ -33,6 +36,18 @@ pub struct GroupSchedulePageFormData {
 #[derive(Deserialize)]
 struct GetGroupsResponse {
     d: Vec<String>
+}
+
+impl Term {
+
+    pub fn current() -> Self {
+        let current_month = Utc::now().month0();
+        if current_month == 0 || current_month >= 6 {
+            Self::First
+        } else {
+            Self::Second
+        }
+    }
 }
 
 // get all groups
@@ -71,25 +86,28 @@ async fn get_groups_with_prefix(client: &reqwest::Client, prefix: &str) -> Resul
 }
 
 // get schedule by group id
-pub async fn group_schedule(client: &reqwest::Client, id: &str) -> Result<(GroupSchedule, GroupSchedulePageFormData), RozkladParseError> {
-    let res = client.get(&format!("http://rozklad.kpi.ua/Schedules/ViewSchedule.aspx?g={}", id))
-        .header("User-Agent", USER_AGENT)
-        .send()
-        .await?;
+#[async_recursion]
+pub async fn group_schedule(client: &reqwest::Client, term: &Term, id: &str) -> Result<(GroupSchedule, GroupSchedulePageFormData), RozkladParseError> {
+    if term == &Term::First {
+        let res = client.get(&format!("http://rozklad.kpi.ua/Schedules/ViewSchedule.aspx?g={}", id))
+            .header("User-Agent", USER_AGENT)
+            .send()
+            .await?;
 
-    group_schedule_from_html(&res.text().await?)
-}
+        group_schedule_from_html(&res.text().await?)
+    } else if term == &Term::Second {
+        let first_term_reply = group_schedule(&client, &Term::First, &id).await?;
 
-pub async fn group_schedule_second_term(client: &reqwest::Client, id: &str) -> Result<GroupSchedule, RozkladParseError> {
-    let first_term_reply = group_schedule(&client, &id).await?;
+        let res = client.post(&format!("http://rozklad.kpi.ua/Schedules/ViewSchedule.aspx?g={}", id))
+            .header("User-Agent", USER_AGENT)
+            .form(&make_params_for_second_term_fetch(&first_term_reply.1))
+            .send()
+            .await?;
 
-    let res = client.post(&format!("http://rozklad.kpi.ua/Schedules/ViewSchedule.aspx?g={}", id))
-        .header("User-Agent", USER_AGENT)
-        .form(&make_params_for_second_term_fetch(&first_term_reply.1))
-        .send()
-        .await?;
-
-    group_schedule_from_html(&res.text().await?).map(|v| v.0)
+        group_schedule_from_html(&res.text().await?)
+    } else {
+        panic!("Unexpected term: {:?}", term);
+    }
 }
 
 fn group_schedule_from_html(html: &str) -> Result<(GroupSchedule, GroupSchedulePageFormData), RozkladParseError> {

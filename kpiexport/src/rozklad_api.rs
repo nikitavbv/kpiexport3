@@ -2,7 +2,6 @@ use std::collections::HashMap;
 use serde::Deserialize;
 use crate::errors::RozkladParseError;
 use crate::models::schedule::*;
-use crate::utils::group_id_from_url;
 
 #[derive(Deserialize, Debug)]
 struct GroupInfoResult {

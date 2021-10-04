@@ -7,10 +7,11 @@ use tokio_postgres::{Client, Transaction};
 use crate::database::database_connection;
 use crate::models::schedule_queries::{api_groups_to_refresh, groups_with_old_schedule, remove_old_schedule_from_database_transaction, save_schedule_to_database_transaction};
 use crate::rozklad::group_schedule_by_name;
+use crate::rozklad_parser::Term;
 
 pub async fn refresh_schedule() -> IOResult<()> {
     let client = reqwest::Client::new();
-    let mut database = match database_connection().await {
+    let database = match database_connection().await {
         Ok(v) => v,
         Err(err) => return IOResult::Err(IOError::new(
             ErrorKind::Other,
@@ -77,7 +78,7 @@ async fn refresh_schedule_for_group(database: &Transaction<'_>, client: &reqwest
         error!("failed to remove schedule from database: {}", err);
     }
 
-    let schedule = match group_schedule_by_name(&client, &group_name).await {
+    let schedule = match group_schedule_by_name(&client, &Term::current(), &group_name).await {
         Ok(v) => v,
         Err(err) => {
             error!("failed to get group schedule: {}", err);

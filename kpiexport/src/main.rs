@@ -15,6 +15,7 @@ use crate::models::groups::{total_groups_saved, add_group};
 use crate::jobs::refresh_groups::refresh_groups;
 use crate::jobs::refresh_schedule::refresh_schedule;
 use crate::models::schedule_queries::{remove_old_schedule_from_database, save_schedule_to_database};
+use crate::rozklad_parser::Term;
 
 mod config;
 mod database;
@@ -107,7 +108,7 @@ async fn group_schedule(group_name: web::Path<GroupName>) -> impl Responder {
             }
             info!("removed old schedule from database if present");
             
-            let schedule = match group_schedule_by_name(&client, &group_name.group_name).await {
+            let schedule = match group_schedule_by_name(&client, &Term::current(), &group_name.group_name).await {
                 Ok(v) => v,
                 Err(err) => {
                     error!("failed to get group schedule: {}", err);
