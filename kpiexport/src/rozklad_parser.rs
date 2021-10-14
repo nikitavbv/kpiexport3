@@ -341,7 +341,7 @@ mod tests {
 
     #[tokio::test]
     async fn rozklad_schedule_ip82_second_term() {
-        println!("result is {:?}", group_schedule_second_term(&reqwest::Client::new(), "494e5743-35fb-4a3f-b868-44662e6cd66e").await.unwrap().entries);
+        println!("result is {:?}", group_schedule(&reqwest::Client::new(), &Term::Second, "494e5743-35fb-4a3f-b868-44662e6cd66e").await.unwrap().entries);
     }
 
     #[tokio::test]
