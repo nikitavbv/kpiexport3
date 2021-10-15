@@ -336,12 +336,12 @@ mod tests {
     #[tokio::test]
     async fn rozklad_schedule_ip82() {
         let ip82_group_id = group_id_by_name(&reqwest::Client::new(), "ІП-82").await.unwrap();
-        assert_gt!(group_schedule(&reqwest::Client::new(), &ip82_group_id).await.unwrap().0.entries.len(), 0);
+        assert_gt!(group_schedule(&reqwest::Client::new(), &Term::First, &ip82_group_id).await.unwrap().0.entries.len(), 0);
     }
 
     #[tokio::test]
     async fn rozklad_schedule_ip82_second_term() {
-        println!("result is {:?}", group_schedule(&reqwest::Client::new(), &Term::Second, "494e5743-35fb-4a3f-b868-44662e6cd66e").await.unwrap().entries);
+        println!("result is {:?}", group_schedule(&reqwest::Client::new(), &Term::Second, "494e5743-35fb-4a3f-b868-44662e6cd66e").await.unwrap().0.entries);
     }
 
     #[tokio::test]
