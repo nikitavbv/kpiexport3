@@ -70,6 +70,7 @@ async fn start_webserver() -> std::io::Result<()> {
         .service(metrics)
         .service(groups)
         .service(group_schedule)
+        .service(subject_id_by_name)
     )
         .bind(bind_address())?
         .run()
@@ -220,6 +221,12 @@ async fn metrics() -> impl Responder {
     };
 
     HttpResponse::Ok().body(encoded)
+}
+
+#[get("/subjects")]
+async fn subject_id_by_name() -> impl Responder {
+    unimplemented!();
+    "ok"
 }
 
 async fn load_group_schedule_from_database(database: &tokio_postgres::Client, group_name: &str) -> Result<Option<GroupSchedule>, PersistenceError> {
