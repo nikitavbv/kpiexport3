@@ -41,7 +41,12 @@ lazy_static! {
 
 #[derive(Deserialize)]
 struct GroupName {
-    group_name: String
+    group_name: String,
+}
+
+#[derive(Deserialize)]
+struct SubjectName {
+    subject_name: String,
 }
 
 #[actix_web::main]
@@ -224,7 +229,7 @@ async fn metrics() -> impl Responder {
 }
 
 #[get("/subjects")]
-async fn subject_id_by_name() -> impl Responder {
+async fn subject_id_by_name(subject_name: web::Query<SubjectName>) -> impl Responder {
     unimplemented!();
     "ok"
 }
