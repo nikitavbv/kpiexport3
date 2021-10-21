@@ -230,6 +230,14 @@ async fn metrics() -> impl Responder {
 
 #[get("/subjects")]
 async fn subject_id_by_name(subject_name: web::Query<SubjectName>) -> impl Responder {
+    let database = match database_connection().await {
+        Ok(v) => v,
+        Err(err) => {
+            error!("failed to connect to database: {}", err);
+            return HttpResponse::InternalServerError().body("internal_server_error");
+        }
+    };
+
     unimplemented!();
     "ok"
 }
