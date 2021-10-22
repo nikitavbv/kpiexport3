@@ -238,6 +238,17 @@ async fn subject_id_by_name(subject_name: web::Query<SubjectName>) -> impl Respo
         }
     };
 
+    let res = match database.query(
+        "select * from subject_names where name = $1",
+        &[&subject_name.subject_name]
+    ).await {
+        Ok(v) => v,
+        Err(err) => {
+            error!("failed to execute database query: {}", err);
+            return HttpResponse::InternalServerError().body("internal_server_error");
+        }
+    };
+
     unimplemented!();
     "ok"
 }
