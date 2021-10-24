@@ -239,7 +239,7 @@ async fn subject_id_by_name(subject_name: web::Query<SubjectName>) -> impl Respo
     };
 
     let res = match database.query(
-        "select * from subject_names where name = $1",
+        "select subject_id from subject_names where name = $1 limit 1",
         &[&subject_name.subject_name]
     ).await {
         Ok(v) => v,
@@ -249,8 +249,7 @@ async fn subject_id_by_name(subject_name: web::Query<SubjectName>) -> impl Respo
         }
     };
 
-    unimplemented!();
-    HttpResponse::Ok().body("ok")
+    HttpResponse::Ok().body(res.rows[0].get("subject_id"))
 }
 
 async fn load_group_schedule_from_database(database: &tokio_postgres::Client, group_name: &str) -> Result<Option<GroupSchedule>, PersistenceError> {
