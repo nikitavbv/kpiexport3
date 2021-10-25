@@ -249,7 +249,7 @@ async fn subject_id_by_name(subject_name: web::Query<SubjectName>) -> impl Respo
         }
     };
 
-    HttpResponse::Ok().body(res.rows[0].get("subject_id"))
+    HttpResponse::Ok().body(res[0].get::<&str, i32>("subject_id").to_string())
 }
 
 async fn load_group_schedule_from_database(database: &tokio_postgres::Client, group_name: &str) -> Result<Option<GroupSchedule>, PersistenceError> {
