@@ -253,7 +253,7 @@ async fn subject_id_by_name(subject_name: web::Query<SubjectName>) -> impl Respo
 }
 
 #[get("/subjects/{subject_id}/link")]
-async fn link_by_subject_id() -> impl Responder {
+async fn link_by_subject_id(subject_id: web::Path<u32>) -> impl Responder {
 }
 
 async fn load_group_schedule_from_database(database: &tokio_postgres::Client, group_name: &str) -> Result<Option<GroupSchedule>, PersistenceError> {
