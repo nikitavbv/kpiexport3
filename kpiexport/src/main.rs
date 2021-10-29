@@ -254,6 +254,13 @@ async fn subject_id_by_name(subject_name: web::Query<SubjectName>) -> impl Respo
 
 #[get("/subjects/{subject_id}/link")]
 async fn link_by_subject_id(subject_id: web::Path<u32>) -> impl Responder {
+    let database = match database_connection().await {
+        Ok(v) => v,
+        Err(err) => {
+            error!("failed to connect to database: {}", err);
+            return HttpResponse::InternalServerError().body("internal_server_error");
+        }
+    };
 }
 
 async fn load_group_schedule_from_database(database: &tokio_postgres::Client, group_name: &str) -> Result<Option<GroupSchedule>, PersistenceError> {
