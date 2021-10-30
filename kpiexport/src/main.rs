@@ -261,6 +261,10 @@ async fn link_by_subject_id(subject_id: web::Path<u32>) -> impl Responder {
             return HttpResponse::InternalServerError().body("internal_server_error");
         }
     };
+
+    unimplemented!();
+
+    HttpResponse::Ok().body("ok")
 }
 
 async fn load_group_schedule_from_database(database: &tokio_postgres::Client, group_name: &str) -> Result<Option<GroupSchedule>, PersistenceError> {
