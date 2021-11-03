@@ -262,9 +262,18 @@ async fn link_by_subject_id(subject_id: web::Path<u32>) -> impl Responder {
         }
     };
 
-    unimplemented!();
+    let res = match database.query(
+        "select link from subjects where id = $1 limit 1",
+        &[&subject_id]
+    ).await {
+        Ok(v) => v,
+        Err(err) => {
+            error!("failed to execute database query: {}", err);
+            return HttpResponse::InternalServerError().body("internal_server_error");
+        }
+    };
 
-    HttpResponse::Ok().body("ok")
+    HttpResponse::Ok().body(res[0]::get<&str>("link").to_string())
 }
 
 async fn load_group_schedule_from_database(database: &tokio_postgres::Client, group_name: &str) -> Result<Option<GroupSchedule>, PersistenceError> {
