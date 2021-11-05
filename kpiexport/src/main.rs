@@ -253,7 +253,7 @@ async fn subject_id_by_name(subject_name: web::Query<SubjectName>) -> impl Respo
 }
 
 #[get("/subjects/{subject_id}/link")]
-async fn link_by_subject_id(subject_id: web::Path<u32>) -> impl Responder {
+async fn link_by_subject_id(subject_id: web::Path<(u32,)>) -> impl Responder {
     let database = match database_connection().await {
         Ok(v) => v,
         Err(err) => {
@@ -264,7 +264,7 @@ async fn link_by_subject_id(subject_id: web::Path<u32>) -> impl Responder {
 
     let res = match database.query(
         "select link from subjects where id = $1 limit 1",
-        &[&subject_id]
+        &[&subject_id.0]
     ).await {
         Ok(v) => v,
         Err(err) => {
@@ -273,7 +273,7 @@ async fn link_by_subject_id(subject_id: web::Path<u32>) -> impl Responder {
         }
     };
 
-    HttpResponse::Ok().body(res[0]::get<&str>("link").to_string())
+    HttpResponse::Ok().body(res[0].get::<&str, String>("link").to_string())
 }
 
 async fn load_group_schedule_from_database(database: &tokio_postgres::Client, group_name: &str) -> Result<Option<GroupSchedule>, PersistenceError> {
