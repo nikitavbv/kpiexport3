@@ -252,8 +252,8 @@ async fn subject_id_by_name(subject_name: web::Query<SubjectName>) -> impl Respo
     HttpResponse::Ok().body(res[0].get::<&str, i32>("subject_id").to_string())
 }
 
-#[get("/subjects/{subject_id}/link")]
-async fn link_by_subject_id(subject_id: web::Path<(u32,)>) -> impl Responder {
+#[get("/subjects/{subject_id}")]
+async fn subject_info_by_id(subject_id: web::Path<(u32,)>) -> impl Responder {
     let database = match database_connection().await {
         Ok(v) => v,
         Err(err) => {
