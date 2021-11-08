@@ -263,7 +263,7 @@ async fn subject_info_by_id(subject_id: web::Path<(u32,)>) -> impl Responder {
     };
 
     let res = match database.query(
-        "select link from subjects where id = $1 limit 1",
+        "select link, emoji from subjects where id = $1 limit 1",
         &[&subject_id.0]
     ).await {
         Ok(v) => v,
@@ -273,7 +273,9 @@ async fn subject_info_by_id(subject_id: web::Path<(u32,)>) -> impl Responder {
         }
     };
 
-    HttpResponse::Ok().body(res[0].get::<&str, String>("link").to_string())
+    let link = res[0].get::<&str, String>("link").to_string();
+    let emoji = res[1].get::<&str, String>("emoji").to_string();
+    HttpResponse::Ok().body(link)
 }
 
 async fn load_group_schedule_from_database(database: &tokio_postgres::Client, group_name: &str) -> Result<Option<GroupSchedule>, PersistenceError> {
