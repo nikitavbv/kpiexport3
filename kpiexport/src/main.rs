@@ -49,6 +49,12 @@ struct SubjectName {
     subject_name: String,
 }
 
+#[derive(Serialize)]
+struct SubjectResponse {
+    link: String,
+    emoji: String,
+}
+
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     env_logger::init();
