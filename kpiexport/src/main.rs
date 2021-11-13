@@ -281,7 +281,10 @@ async fn subject_info_by_id(subject_id: web::Path<(u32,)>) -> impl Responder {
 
     let link = res[0].get::<&str, String>("link").to_string();
     let emoji = res[1].get::<&str, String>("emoji").to_string();
-    HttpResponse::Ok().body(link)
+    HttpResponse::Ok().body(SubjectResponse {
+        link,
+        emoji,
+    })
 }
 
 async fn load_group_schedule_from_database(database: &tokio_postgres::Client, group_name: &str) -> Result<Option<GroupSchedule>, PersistenceError> {
