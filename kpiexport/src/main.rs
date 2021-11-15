@@ -82,6 +82,7 @@ async fn start_webserver() -> std::io::Result<()> {
         .service(groups)
         .service(group_schedule)
         .service(subject_id_by_name)
+        .service(subject_info_by_id)
     )
         .bind(bind_address())?
         .run()
