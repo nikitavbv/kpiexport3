@@ -71,14 +71,14 @@ pub async fn group_schedule(client: &reqwest::Client, name: &str) -> Result<Grou
     for week in res.data.weeks {
         for day in week.1.days {
             for lesson in day.1.lessons {
-                entries.push(GroupScheduleEntry {
-                    week: ScheduleWeek::from_api_index(week.0.parse()?),
-                    day: ScheduleDay::from_api_index(day.0.parse()?),
-                    index: lesson.lesson_number.parse().map(|v: u8| v - 1)?,
-                    names: vec![ lesson.lesson_name ],
-                    lecturers: lesson.teachers.iter().map(|v| v.teacher_short_name.clone()).collect(),
-                    locations: lesson.rooms.iter().map(|v| v.room_name.clone()).collect(),
-                })
+                entries.push(GroupScheduleEntry::new(
+                    ScheduleWeek::from_api_index(week.0.parse()?),
+                    ScheduleDay::from_api_index(day.0.parse()?),
+                    lesson.lesson_number.parse().map(|v: u8| v - 1)?,
+                    vec![ lesson.lesson_name ],
+                    lesson.teachers.iter().map(|v| v.teacher_short_name.clone()).collect(),
+                    lesson.rooms.iter().map(|v| v.room_name.clone()).collect(),
+                ));
             }
         }
     }

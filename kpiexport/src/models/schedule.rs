@@ -10,6 +10,8 @@ pub struct GroupSchedule {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GroupScheduleEntry {
+    subject_id: Option<SubjectId>,
+
     pub week: ScheduleWeek,
     pub day: ScheduleDay,
     pub index: u8, // first lesson is 0
@@ -27,6 +29,41 @@ pub enum ScheduleDay {
     Friday,
     Saturday,
     Sunday, // we never have lessons on Sunday, but it makes sense to keep it here
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct SubjectId(u32);
+
+impl GroupScheduleEntry {
+
+    pub fn new(week: ScheduleWeek,
+               day: ScheduleDay,
+               index: u8,
+               names: Vec<String>,
+               lecturers: Vec<String>,
+               locations: Vec<String>) -> Self {
+        Self {
+            subject_id: None,
+
+            week,
+            day,
+            index,
+            names,
+            lecturers,
+            locations,
+        }
+    }
+
+    pub fn with_locations(&self, locations: Vec<String>) -> Self {
+        Self {
+            locations,
+            ..self.clone()
+        }
+    }
+
+    pub fn locations(&self) -> &Vec<String> {
+        &self.locations
+    }
 }
 
 impl ScheduleDay {
