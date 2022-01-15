@@ -32,7 +32,7 @@ pub enum ScheduleDay {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct SubjectId(u32);
+pub struct SubjectId(i32);
 
 impl GroupScheduleEntry {
 

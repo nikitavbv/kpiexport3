@@ -28,3 +28,4 @@ translit = "0.5.0"
 tokio = { version = "1.11.0", features = ["full"] }
 async-recursion = "0.3.2"
 refinery = "0.7.0"
+thiserror = "1.0.30"
