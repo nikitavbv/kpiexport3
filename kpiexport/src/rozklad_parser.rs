@@ -212,13 +212,14 @@ fn parse_week(week_table: &ElementRef, week: ScheduleWeek) -> Vec<GroupScheduleE
 
             if index.is_some() {
                 entries.push(GroupScheduleEntry::new(
-                    week.clone(),
-                    day.clone(),
-                    index.unwrap(),
-                    names,
-                    lecturers,
-                    locations
-                ));
+                        week.clone(),
+                        day.clone(),
+                        index.unwrap()
+                    )
+                    .with_names(names)
+                    .with_lecturers(lecturers)
+                    .with_locations(locations)
+                );
             }
 
             day = day.next();

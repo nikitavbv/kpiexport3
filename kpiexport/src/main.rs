@@ -139,7 +139,7 @@ async fn group_schedule(group_name: web::Path<GroupName>) -> impl Responder {
 
     let schedule = GroupSchedule {
         entries: schedule.entries.iter().cloned()
-            .map(|v| v.with_locations(v.locations().iter().map(|v| format!("НТУУ \"КПІ\" ({})", v)).collect()))
+            .map(|v| v.clone().with_locations(v.locations().iter().map(|v| format!("НТУУ \"КПІ\" ({})", v)).collect()))
             .collect(),
         source: schedule.source,
     };
@@ -300,13 +300,14 @@ async fn load_group_schedule_from_database(database: &tokio_postgres::Client, gr
 
     for row in res {
         entries.push(GroupScheduleEntry::new(
-            ScheduleWeek::from_index(row.get::<&str, i16>("week") as u8),
-            ScheduleDay::from_index(row.get::<&str, i16>("day") as u8),
-            row.get::<&str, i16>("index") as u8,
-            row.get("names"),
-            row.get("lecturers"),
-            row.get("locations")
-        ));
+                ScheduleWeek::from_index(row.get::<&str, i16>("week") as u8),
+                ScheduleDay::from_index(row.get::<&str, i16>("day") as u8),
+                row.get::<&str, i16>("index") as u8
+            )
+            .with_names(row.get("names"))
+            .with_lecturers( row.get("lecturers"))
+            .with_locations(row.get("locations"))
+        );
 
         if source.is_none() {
             let source_str: String = row.get("source");

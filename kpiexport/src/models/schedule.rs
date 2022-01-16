@@ -36,28 +36,37 @@ pub struct SubjectId(i32);
 
 impl GroupScheduleEntry {
 
-    pub fn new(week: ScheduleWeek,
-               day: ScheduleDay,
-               index: u8,
-               names: Vec<String>,
-               lecturers: Vec<String>,
-               locations: Vec<String>) -> Self {
+    pub fn new(week: ScheduleWeek, day: ScheduleDay, index: u8) -> Self {
         Self {
             subject_id: None,
 
             week,
             day,
             index,
-            names,
-            lecturers,
-            locations,
+            names: Vec::new(),
+            lecturers: Vec::new(),
+            locations: Vec::new(),
         }
     }
 
-    pub fn with_locations(&self, locations: Vec<String>) -> Self {
+    pub fn with_names(self, names: Vec<String>) -> Self {
+        Self {
+            names,
+            ..self
+        }
+    }
+
+    pub fn with_lecturers(self, lecturers: Vec<String>) -> Self {
+        Self {
+            lecturers,
+            ..self
+        }
+    }
+
+    pub fn with_locations(self, locations: Vec<String>) -> Self {
         Self {
             locations,
-            ..self.clone()
+            ..self
         }
     }
 
@@ -121,6 +130,12 @@ impl <'de> Deserialize<'de> for ScheduleDay {
     
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error> where D: serde::Deserializer<'de> {
         Ok(Self::from_index(i16::deserialize(deserializer)? as u8))
+    }
+}
+
+impl SubjectId {
+    pub fn new(id: i32) -> Self {
+        Self(id)
     }
 }
 
