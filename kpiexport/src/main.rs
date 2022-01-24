@@ -3,6 +3,7 @@
 #[macro_use] extern crate lazy_static;
 extern crate custom_error;
 
+use std::env;
 use rozklad::group_schedule_by_name;
 use actix_web::{App, HttpServer, Responder, get, HttpResponse, web };
 use config::bind_address;
@@ -10,7 +11,7 @@ use prometheus::{TextEncoder, Encoder, Counter, register_counter, opts};
 use database::database_connection;
 use errors::PersistenceError;
 use models::schedule::{GroupScheduleSource, GroupSchedule, GroupScheduleEntry, ScheduleWeek, ScheduleDay};
-use std::env;
+use git_version::git_version;
 use crate::models::groups::{total_groups_saved, add_group};
 use crate::jobs::refresh_groups::refresh_groups;
 use crate::jobs::refresh_schedule::refresh_schedule;
@@ -27,6 +28,8 @@ mod rozklad_parser;
 mod rozklad_api;
 mod utils;
 mod jobs;
+
+const VERSION: &str = git_version!();
 
 lazy_static! {
     static ref GROUPS_LIST_REQUESTS: Counter = register_counter!(opts!(
@@ -79,6 +82,7 @@ async fn start_webserver() -> std::io::Result<()> {
     HttpServer::new(|| App::new()
         .service(healthz)
         .service(metrics)
+        .service(service_version)
         .service(groups)
         .service(group_schedule)
         .service(subject_id_by_name)
@@ -230,6 +234,11 @@ async fn metrics() -> impl Responder {
     };
 
     HttpResponse::Ok().body(encoded)
+}
+
+#[get("/version")]
+async fn service_version() -> impl Responder {
+    VERSION
 }
 
 #[get("/subjects")]
