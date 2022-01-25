@@ -297,8 +297,8 @@ async fn subject_info_by_id(subject_id: web::Path<(u32,)>) -> impl Responder {
 
 async fn load_group_schedule_from_database(database: &tokio_postgres::Client, group_name: &str) -> Result<Option<GroupSchedule>, PersistenceError> {
     let res = match database.query(
-        "select * from schedule where group_name = $1 and updated_at > now() - interval $2",
-        &[&group_name, &Duration::days(14)]
+        "select * from schedule where group_name = $1 and updated_at > now() - $1::text::interval",
+        &[&group_name, &format!("{}days", 14)]
     ).await {
         Ok(v) => v,
         Err(err) => {
