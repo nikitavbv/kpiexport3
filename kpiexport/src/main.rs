@@ -12,6 +12,7 @@ use database::database_connection;
 use errors::PersistenceError;
 use models::schedule::{GroupScheduleSource, GroupSchedule, GroupScheduleEntry, ScheduleWeek, ScheduleDay};
 use git_version::git_version;
+use chrono::Duration;
 use crate::models::groups::{total_groups_saved, add_group};
 use crate::jobs::refresh_groups::refresh_groups;
 use crate::jobs::refresh_schedule::refresh_schedule;
@@ -296,8 +297,8 @@ async fn subject_info_by_id(subject_id: web::Path<(u32,)>) -> impl Responder {
 
 async fn load_group_schedule_from_database(database: &tokio_postgres::Client, group_name: &str) -> Result<Option<GroupSchedule>, PersistenceError> {
     let res = match database.query(
-        "select * from schedule where group_name = $1 and updated_at > now() - interval '14 days'",
-        &[&group_name]
+        "select * from schedule where group_name = $1 and updated_at > now() - interval $2",
+        &[&group_name, &Duration::days(14)]
     ).await {
         Ok(v) => v,
         Err(err) => {
