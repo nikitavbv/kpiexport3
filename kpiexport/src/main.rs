@@ -20,6 +20,7 @@ use crate::models::schedule_queries::{remove_old_schedule_from_database, save_sc
 use crate::rozklad_parser::Term;
 
 mod config;
+mod custom;
 mod database;
 mod e2e;
 mod errors;
