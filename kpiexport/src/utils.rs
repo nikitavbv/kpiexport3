@@ -1,4 +1,4 @@
-use chrono::{DateTime, Utc};
+use chrono::{DateTime, Utc, Datelike};
 use crate::errors::RozkladParseError;
 
 const VIEW_SCHEDULE_PREFIX: &'static str = "ViewSchedule.aspx?g=";
