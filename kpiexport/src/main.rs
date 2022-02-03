@@ -243,7 +243,7 @@ async fn service_version() -> impl Responder {
     VERSION
 }
 
-#[get("/subjects")]
+#[get("/api/v1/subjects")]
 async fn subject_id_by_name(subject_name: web::Query<SubjectName>) -> impl Responder {
     let database = match database_connection().await {
         Ok(v) => v,
