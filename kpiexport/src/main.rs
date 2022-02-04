@@ -238,7 +238,7 @@ async fn metrics() -> impl Responder {
     HttpResponse::Ok().body(encoded)
 }
 
-#[get("/version")]
+#[get("/api/v1/version")]
 async fn service_version() -> impl Responder {
     VERSION
 }
