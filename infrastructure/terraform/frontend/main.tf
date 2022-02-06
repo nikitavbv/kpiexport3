@@ -50,7 +50,7 @@ resource "google_cloud_run_service" "kpiexport_service" {
             service_account_name = "916750455653-compute@developer.gserviceaccount.com"
     
             containers {
-                image = "eu.gcr.io/nikitavbv/nikitavbv/kpiexport:${var.service_version}"
+                image = "eu.gcr.io/nikitavbv/nikitavbv/kpiexport_frontend:${var.service_version}"
             }
         }
     }
