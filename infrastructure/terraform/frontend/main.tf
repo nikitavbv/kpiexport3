@@ -32,8 +32,7 @@ resource "google_cloud_run_service" "kpiexport_service" {
     metadata {
         annotations = {
             generated-by = "magic-modules"
-            "run.googleapis.com/ingress" = "all"
-            "run.googleapis.com/launch-stage" = "BETA"
+            "run.googleapis.com/ingress" = "internal-and-cloud-load-balancing"
         }
     }
 
