@@ -264,6 +264,10 @@ async fn subject_id_by_name(subject_name: web::Query<SubjectName>) -> impl Respo
         }
     };
 
+    if res.len() == 0 {
+        return HttpResponse::NotFound().body("subject_not_found");
+    }
+
     HttpResponse::Ok().body(res[0].get::<&str, i32>("subject_id").to_string())
 }
 
