@@ -145,6 +145,10 @@ async fn group_schedule(group_name: web::Path<GroupName>) -> impl Responder {
 
     let entries = schedule.entries.iter().cloned()
         .map(|v| v.clone().with_locations(v.locations().iter().map(|v| format!("НТУУ \"КПІ\" ({})", v)).collect()))
+        .map(|v| {
+            info!("subject id is {}", v.subject_id);
+            v
+        })
         .collect();
 
     let schedule = GroupSchedule {
