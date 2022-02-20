@@ -219,3 +219,35 @@ impl GroupScheduleSource {
         }
     }
 }
+
+#[derive(PartialEq, Eq, Copy, Clone)]
+pub enum LectureType {
+    Lecture,
+    Practice,
+    Lab,
+}
+
+impl LectureType {
+
+    #[allow(dead_code)] // used in other crates
+    pub fn from_location(location: &str) -> Option<Self> {
+        Some(if location.contains("Лек") {
+            Self::Lecture
+        } else if location.contains("Прак") {
+            Self::Practice
+        } else if location.contains("Лаб") {
+            Self::Lab
+        } else {
+            return None
+        })
+    }
+
+    #[allow(dead_code)] // used in other crates
+    pub fn to_human(&self) -> String {
+        match &self {
+            Self::Lecture => "Лекция",
+            Self::Lab => "Лаба",
+            Self::Practice => "Практика",
+        }.to_owned()
+    }
+}
