@@ -70,12 +70,23 @@ impl GroupScheduleEntry {
         }
     }
 
+    pub fn with_subject_id(self, subject_id: SubjectId) -> Self {
+        Self {
+            subject_id: Some(subject_id),
+            ..self
+        }
+    }
+
     pub fn locations(&self) -> &Vec<String> {
         &self.locations
     }
 
     pub fn subject_id(&self) -> &Option<SubjectId> {
         &self.subject_id
+    }
+
+    pub fn names(&self) -> &Vec<String> {
+        &self.names
     }
 }
 

@@ -143,13 +143,18 @@ async fn group_schedule(group_name: web::Path<GroupName>) -> impl Responder {
         }
     };
 
-    let entries = schedule.entries.iter().cloned()
-        .map(|v| v.clone().with_locations(v.locations().iter().map(|v| format!("НТУУ \"КПІ\" ({})", v)).collect()))
-        .map(|v| {
-            info!("subject id is {:?}", v.subject_id());
-            v
-        })
-        .collect();
+    let mut entries = Vec::new();
+
+    for mut entry in schedule.entries {
+        let subject_id = database::subject_id_by_name(&database, &entry.names()[0]).await.unwrap();
+        if let Some(subject_id) = subject_id {
+            entry = entry.with_subject_id(subject_id);
+        }
+
+        entry = entry.clone().with_locations(entry.locations().iter().map(|v| format!("НТУУ \"КПІ\" ({})", v)).collect());
+
+        entries.push(entry);
+    }
 
     let schedule = GroupSchedule {
         entries,
