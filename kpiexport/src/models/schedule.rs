@@ -73,6 +73,10 @@ impl GroupScheduleEntry {
     pub fn locations(&self) -> &Vec<String> {
         &self.locations
     }
+
+    pub fn subject_id(&self) -> &Option<SubjectId> {
+        &self.subject_id
+    }
 }
 
 impl ScheduleDay {
